@@ -1,0 +1,22 @@
+name: Docker Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag hanja-docker-test:$(date +%s)
+
+    - name: Run the Docker image
+      run: |
+        docker run hanja-docker-test:$(date +%s)
